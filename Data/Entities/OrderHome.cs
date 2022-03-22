@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace HomeBuy.Data.Entities
+{
+    public class OrderHome
+    {
+        public int Id { get; set; }
+        
+        public Home Home { get; set; }
+
+        public decimal HomePrice { get; set; }
+
+        public Order Order { get; set; }
+    }
+}
