@@ -12,6 +12,7 @@ namespace HomeBuy.Data
         public HomeBuyContext (DbContextOptions<HomeBuyContext> options)
             : base(options)
         {
+            
         }
 
         public DbSet<HomeBuy.Data.Entities.Home> Home { get; set; }

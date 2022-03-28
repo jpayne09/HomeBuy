@@ -10,11 +10,11 @@ namespace HomeBuy.Data.Entities
         public int Id { get; set; }
         public string Type { get; set; }
         public int Floors { get; set; }
-        public string Location { get; set; }
+        public string Size { get; set; }
 
-        public DateTime OrderDate { get; set; }
-
-        public ICollection<OrderHome> additionalItems { get; set; }
+        public string HomeAddress { get; set; }
+        public string HomeCity { get; set; }
+        public string HomeState { get; set; }
         
     }
 }

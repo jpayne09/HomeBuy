@@ -16,21 +16,23 @@ namespace HomeBuy.Data
                 serviceProvider.GetRequiredService<
                     DbContextOptions<HomeBuyContext>>()))
             {
-                // Look for any movies.
-                if (context.Home.Any())
+                context.Database.EnsureCreated();
+                // Look for any homes.
+                if (!context.Home.Any())
                 {
-                    return;   // DB has been seeded
-                }
 
-                context.Home.AddRange(
-                    new Home
-                    {
-                        Id = 1, 
-                        Type = "Townhouse",
-                        Floors = 2,
-                        Location = "Maryland"
-                    }
-                );
+                    context.Home.AddRange(
+                       new Home
+                       {
+                           Type = "Townhouse",
+                           Floors = 2,
+                           Size = "100sqft",
+                           HomeAddress = "123 St ave",
+                           HomeCity = "Dayton",
+                           HomeState = "OHIO"
+    }
+                    );
+                }
                 context.SaveChanges();
             }
         }
