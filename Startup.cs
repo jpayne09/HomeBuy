@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HomeBuy.Data;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 namespace HomeBuy
 {
@@ -24,6 +27,9 @@ namespace HomeBuy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+            
             services.AddRazorPages();
 
             services.AddDbContext<HomeBuyContext>(options =>
@@ -52,14 +58,27 @@ namespace HomeBuy
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
+            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
-                endpoints.MapControllerRoute("Default",
-                    "/{controller}/{action}/{id?}",
-                    new { controller = "Homes", action = "Index" });
+                //endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "Default",
+                    pattern: "{controller}/{action=Index}/{id?}");
+                   // new { controller = "Homes", action = "Index" });
+            });
+            
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "client";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

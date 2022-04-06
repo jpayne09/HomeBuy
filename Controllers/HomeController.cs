@@ -1,8 +1,10 @@
 ﻿using HomeBuy.Data;
 using HomeBuy.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web.Resource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace HomeBuy.Controllers
 {
-    [Route("api/[Controller]")]
     [ApiController]
+    [Authorize]
+    [Route("api/[Controller]")]
     [Produces("application/json")]
 
     public class HomeController : Controller
@@ -25,9 +28,13 @@ namespace HomeBuy.Controllers
             _logger = logger;
         }
 
+        static readonly string[] scopeRequiredByApi = new string[] { "ReadAccess" };
+
         [HttpGet]
         public IEnumerable<Home> Get()
         {
+            HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
+
             _logger.LogInformation("Get all homes was called");
             return _ctx.Home
                 .ToList();
