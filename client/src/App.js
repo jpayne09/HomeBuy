@@ -7,6 +7,8 @@ import { PageLayout } from "./components/PageLayout";
 import { ProfileData } from "./components/ProfileData";
 import { callMsGraph } from "./auth/graph";
 import HomeView from "./view/HomeView";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Hello } from "./pages/Hello";
 
 const ProfileContent = () => {
     const { instance, accounts } = useMsal();
@@ -86,6 +88,16 @@ const MainContent = () => {
     );
 };
 
+const Pages = () => {
+    return (
+        <Switch>
+            <Route path="/hello">
+                <Hello />
+            </Route>
+        </Switch>
+    )
+}
+
 /**
  * msal-react is built on the React context API and all parts of your app that require authentication must be 
  * wrapped in the MsalProvider component. You will first need to initialize an instance of PublicClientApplication 
@@ -95,8 +107,12 @@ const MainContent = () => {
  */
 export default function App({ msalInstance }) {
     return (
-        <MsalProvider instance={msalInstance}>
-                <MainContent />
-        </MsalProvider>
+        <Router>
+            <MsalProvider instance={msalInstance}>
+                <PageLayout>
+                    <Pages />
+                </PageLayout>
+         </MsalProvider>
+        </Router>
     );
 }

@@ -28,7 +28,7 @@ namespace HomeBuy.Controllers
             _logger = logger;
         }
 
-        static readonly string[] scopeRequiredByApi = new string[] { "ReadAccess" };
+        static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
 
         [HttpGet]
         public IEnumerable<Home> Get()

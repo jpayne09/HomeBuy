@@ -53,19 +53,23 @@ function HomeView() {
         GetAToken();
     }, []);
 
-    useEffect(() => {
-        if (accessToken) {
-            getAllHomes();
-        }
-    }, [accessToken]);
     
-    const getAllHomes = () => {
-        axios.get(`${url}`, { headers: { "Authorization": `Bearer ${ accessToken }`} })
-            .then((response) => {
-                console.log(response.data);
-                setHomes(response.data);
-            })
-        .catch(error => console.error(`Error: ${error}`))
+    const callApiWithToken = async (accessToken, url) => {
+        const headers = new Headers();
+        const bearer = `Bearer ${accessToken}`
+
+        headers.append("Authorization", bearer);
+
+        const options = {
+            method: "GET",
+            headers: headers
+        };
+
+        return fetch(url, options)
+            .then(response => response.json())
+            .then(setHomes(response.data))
+            .catch(error => console.log(error));
+
     }
 
     const GetAToken = () => {

@@ -21,7 +21,7 @@ const NavigationBar = () => {
     const { instance } = useMsal();
 
     const handleLogin = () => {
-        instance.loginPopup(loginRequest)
+        instance.loginPopup(loginRequest.graphMe)
             .catch((error) => console.log(error))
     }
 
