@@ -4,14 +4,16 @@ using HomeBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeBuy.Migrations
 {
     [DbContext(typeof(HomeBuyContext))]
-    partial class HomeBuyContextModelSnapshot : ModelSnapshot
+    [Migration("20220419154415_Ordermigration2")]
+    partial class Ordermigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

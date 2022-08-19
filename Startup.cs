@@ -12,6 +12,7 @@ using HomeBuy.Data;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using HomeBuy.Data.Entities;
 
 namespace HomeBuy
 {
@@ -31,9 +32,12 @@ namespace HomeBuy
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
             
             services.AddRazorPages();
-
             services.AddDbContext<HomeBuyContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("HomeBuyContext")));
+            services.AddControllers().AddNewtonsoftJson(x =>
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddScoped<IHomeRepository, HomeRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

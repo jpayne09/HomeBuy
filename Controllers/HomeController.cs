@@ -21,23 +21,23 @@ namespace HomeBuy.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HomeBuyContext _ctx;
-
-        public HomeController(HomeBuyContext ctx, ILogger<HomeController> logger)
+        private readonly IHomeRepository _repository;
+        public HomeController(HomeBuyContext ctx, ILogger<HomeController> logger, IHomeRepository repository)
         {
             _ctx = ctx;
             _logger = logger;
+            _repository = repository;
         }
 
         static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
 
         [HttpGet]
-        public IEnumerable<Home> Get()
+        public ActionResult<IEnumerable<Home>> Get()
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
 
             _logger.LogInformation("Get all homes was called");
-            return _ctx.Home
-                .ToList();
+            return Ok(_repository.GetAllProducts());
         }
 
         [HttpGet("{id}")]
@@ -76,7 +76,6 @@ namespace HomeBuy.Controllers
                     }
                 }
         }
-
         private bool HomeExists(int id)
         {
             return _ctx.Home.Any(e => e.Id == id);

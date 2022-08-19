@@ -15,6 +15,8 @@ namespace HomeBuy.Data
             
         }
 
-        public DbSet<HomeBuy.Data.Entities.Home> Home { get; set; }
+        public DbSet<Home> Home { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderHome> OrderHome { get; set; }
     }
 }
